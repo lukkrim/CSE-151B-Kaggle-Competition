@@ -1,0 +1,14 @@
+accelerate==1.13.0
+bitsandbytes>=0.48.1
+numpy==2.0.2
+pandas>=2.2.0
+protobuf==6.33.6
+safetensors==0.7.0
+sentencepiece==0.2.1
+sympy>=1.13.0
+tokenizers==0.22.2
+tqdm>=4.66.0
+transformers==5.7.0
+triton==3.6.0
+vllm==0.20.0
+antlr4-python3-runtime==4.11
