@@ -241,6 +241,25 @@ def export_submission_csv() -> None:
     print("Total rows:", len(df))
 
 
+def run_inference(
+    gpu: str = "0",
+    install_deps: bool = False,
+    skip_preview: bool = False,
+) -> None:
+    """Programmatic entry point to reproduce private-set inference."""
+    if install_deps:
+        install_dependencies()
+
+    print_gpu_info()
+
+    if not skip_preview:
+        preview_public_data()
+
+    tokenizer, llm, sampling_params = load_model(gpu)
+    run_private_inference(tokenizer, llm, sampling_params)
+    export_submission_csv()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run vLLM inference on the private test set.")
     parser.add_argument(
@@ -255,18 +274,11 @@ def main() -> None:
         help="Skip loading and previewing the public dataset",
     )
     args = parser.parse_args()
-
-    if args.install_deps:
-        install_dependencies()
-
-    print_gpu_info()
-
-    if not args.skip_preview:
-        preview_public_data()
-
-    tokenizer, llm, sampling_params = load_model(args.gpu)
-    run_private_inference(tokenizer, llm, sampling_params)
-    export_submission_csv()
+    run_inference(
+        gpu=args.gpu,
+        install_deps=args.install_deps,
+        skip_preview=args.skip_preview,
+    )
 
 
 if __name__ == "__main__":
